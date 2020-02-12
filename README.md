@@ -1,4 +1,19 @@
-[toc]
+Table of Contents
+=================
+
+      * [TextClf简介](#textclf简介)
+         * [前言](#前言)
+         * [系统设计思路](#系统设计思路)
+         * [目录结构](#目录结构)
+      * [安装](#安装)
+      * [快速开始](#快速开始)
+         * [预处理](#预处理)
+         * [训练一个逻辑回归模型](#训练一个逻辑回归模型)
+         * [加载训练完毕的模型进行测试分析](#加载训练完毕的模型进行测试分析)
+         * [训练TextCNN模型](#训练textcnn模型)
+      * [TODO](#todo)
+      * [参考](#参考)
+
 
 ## TextClf简介
 
@@ -62,7 +77,7 @@ TextClf将文本分类的流程看成**预处理、模型训练、模型测试**
 
 
 
-为了方便地对预处理、模型训练、模型测试阶段进行控制，`TextClf`使用了`json`文件来对相关的参数（如预处理中指定原始文件的路径、模型训练阶段指定模型参数、优化器参数等等）进行配置。运行的时候，只要指定配置文件，`TextClf`就会根据文件中的参数完成预处理、训练或者测试等工作，详情可参见 **快速开始**  部分。
+为了方便地对预处理、模型训练、模型测试阶段进行控制，`TextClf`使用了`json`文件来对相关的参数（如预处理中指定原始文件的路径、模型训练阶段指定模型参数、优化器参数等等）进行配置。运行的时候，只要指定配置文件，`TextClf`就会根据文件中的参数完成预处理、训练或者测试等工作，详情可参见 [快速开始](#快速开始)  部分。
 
 
 
@@ -87,13 +102,7 @@ TextClf将文本分类的流程看成**预处理、模型训练、模型测试**
 
 依赖环境：`python >=3.6`
 
-首先将代码`clone`到本地：
-
-```bash
-git clone url_for_project
-```
-
-然后切换到项目目录，使用`pip`安装：
+首先将代码`clone`到本地，然后切换到项目目录，使用`pip`安装：
 
 ```bash
 pip install -e .
@@ -189,7 +198,6 @@ textclf --config-file preprocess.json preprocess
 如无错误，输出如下：
 
 ```bash
- textclf --config-file preprocess.json preprocess
 Tokenize text from ./textclf/examples/query_intent_toy_data/train.csv...
 1000it [00:00, 530655.87it/s]
 Tokenize text from ./textclf/examples/query_intent_toy_data/valid.csv...
@@ -406,6 +414,9 @@ textclf --config-file train_cnn.json train
 [训练深度学习模型的详细参数说明](docs/dl_model.md)
 
 [测试深度学习模型的详细参数说明](docs/tester.md)
+
+[textclf文档](docs/)
+
 
 
 
