@@ -101,12 +101,18 @@ TextClf将文本分类的流程看成**预处理、模型训练、模型测试**
 
 依赖环境：`python >=3.6`
 
-首先将代码`clone`到本地，然后切换到项目目录，使用`pip`安装：
 
+使用ssh方式clone安装：
 ```bash
-pip install -e .
+git clone git@git.code.oa.com:v_pxluo/textclf.git && cd textclf && pip3 install -e .
 ```
 
+使用http方式clone安装：
+```bash
+git clone http://git.code.oa.com/v_pxluo/textclf.git && cd textclf && pip3 install -e .
+```
+
+上述命令首先将代码`clone`到本地， 然后切换到项目目录，使用`pip`安装`textclf`及其依赖。
 之后就可以使用`textclf`了！
 
 
