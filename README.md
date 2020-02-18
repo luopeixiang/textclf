@@ -1,4 +1,6 @@
-Table of Contents:
+![License](https://img.shields.io/apm/l/vim-mode.svg)
+
+目录：
 
 * [TextClf简介](#textclf简介)
    * [前言](#前言)
@@ -33,7 +35,7 @@ TextClf有以下这些特性：
 
 
 
-与其他文本分类框架  [NeuralClassifier](https://git.code.oa.com/DeepText/NeuralClassifier) 的比较：
+与其他文本分类框架  [NeuralClassifier](https://github.com/Tencent/NeuralNLP-NeuralClassifier) 的比较：
 
 * `NeuralClassifier`不支持机器学习模型，也不支持Bert/Xlnet等深度的预训练模型。
 
@@ -102,14 +104,9 @@ TextClf将文本分类的流程看成**预处理、模型训练、模型测试**
 依赖环境：`python >=3.6`
 
 
-使用ssh方式clone安装：
+使用clone安装：
 ```bash
-git clone git@git.code.oa.com:v_pxluo/textclf.git && cd textclf && pip3 install -e .
-```
-
-使用http方式clone安装：
-```bash
-git clone http://git.code.oa.com/v_pxluo/textclf.git && cd textclf && pip3 install -e .
+git clone https://github.com/luopeixiang/textclf.git && cd textclf && pip3 install -e .
 ```
 
 上述命令首先将代码`clone`到本地， 然后切换到项目目录，使用`pip`安装`textclf`及其依赖。
