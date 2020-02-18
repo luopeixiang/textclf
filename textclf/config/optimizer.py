@@ -7,9 +7,9 @@ from .base import ConfigBase
 
 class OptimizerConfig(ConfigBase):
     # learning rate for embedding layer
-    embedding_lr: float = 1e-4
+    embedding_lr: float = 1e-3
     # learning rate for other layer
-    lr: float = 1e-4
+    lr: float = 1e-3
 
     # embedding层在前static_epoch将不会进行训练
     # 在static_epoch之后，embedding将会以embedding_lr作为学习率进行训练

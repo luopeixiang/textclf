@@ -50,8 +50,11 @@ LinearClassifierConfig继承ClassifierConfig的所有属性，同时它还有以
 
 RNNClassifierConfig继承ClassifierConfig的所有属性，同时它还有以下属性：
 
- | Attribute name   | Type   | Default   | Description   |
-|-------------------------------------------------------|
+ | Attribute name   | Type      | Default     | Description                                              |
+|-------------------------------------------------------------------------------------------------------|
+| rnn_config       | RNNConfig | RNNConfig() | config for RNN layer                                     |
+| use_attention    | bool      | True        | If True, use attention mechanism to caluate output state |
+| dropout          | float     | 0.2         | dropout probability on context                           |
 
 
 
@@ -61,17 +64,38 @@ RNNClassifierConfig继承ClassifierConfig的所有属性，同时它还有以下
 
 RCNNClassifierConfig继承ClassifierConfig的所有属性，同时它还有以下属性：
 
- | Attribute name   | Type   | Default   | Description   |
-|-------------------------------------------------------|
+ | Attribute name   | Type      | Default     | Description                                                                                                                               |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| rnn_config       | RNNConfig | RNNConfig() | config for RNN layer                                                                                                                      |
+| semantic_units   | int       | 512         | size of  latent semantic vectorRefer to Equation 4 of the original paper"Recurrent Convolutional Neural Networks for Text Classification" |
 
 
 
-### RNNAttnClassifierConfig
+### DRNNClassifierConfig
 
 
 
-RNNAttnClassifierConfig继承ClassifierConfig的所有属性，同时它还有以下属性：
+DRNNClassifierConfig继承ClassifierConfig的所有属性，同时它还有以下属性：
 
- | Attribute name   | Type   | Default   | Description   |
-|-------------------------------------------------------|
+ | Attribute name   | Type      | Default     | Description                                                       |
+|----------------------------------------------------------------------------------------------------------------|
+| rnn_config       | RNNConfig | RNNConfig() | config for RNN layer                                              |
+| dropout          | float     | 0.2         | The dropout probability  applied  in drnninput and output layers, |
+| window_size      | int       | 10          | The window size for rnn                                           |
+
+
+
+### DPCNNClassifierConfig
+
+
+
+DPCNNClassifierConfig继承ClassifierConfig的所有属性，同时它还有以下属性：
+
+ | Attribute name   | Type   | Default   | Description                                 |
+|-------------------------------------------------------------------------------------|
+| kernel_size      | int    | 3         | kernel size.                                |
+| pooling_stride   | int    | 2         | stride of pooling.                          |
+| num_kernels      | int    | 16        | number of kernels.                          |
+| blocks           | int    | 3         | number of blocks for DPCNN.                 |
+| dropout          | float  | 0.2       | dropout probability on convolution features |
 

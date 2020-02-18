@@ -2,12 +2,7 @@
 
 ### MLModelConfig
 
-
-
-MLModelConfig有以下属性：
-
- | Attribute name   | Type   | Default   | Description   |
-|-------------------------------------------------------|
+ 无可设置的属性
 
 
 
@@ -30,10 +25,5 @@ LogisticRegressionConfig继承MLModelConfig的所有属性，同时它还有以�
 
 ### LinearSVMConfig
 
-
-
-LinearSVMConfig继承MLModelConfig的所有属性，同时它还有以下属性：
-
- | Attribute name   | Type   | Default   | Description   |
-|-------------------------------------------------------|
+ 无可设置的属性
 

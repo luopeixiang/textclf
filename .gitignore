@@ -2,9 +2,13 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.swp
 
 # C extensions
 *.so
+
+# 一些辅助脚本
+scripts/
 
 # Distribution / packaging
 .Python

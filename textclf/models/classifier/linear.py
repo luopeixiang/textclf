@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from .classifier import Classifier
+from .base import Classifier
 from textclf.config import LinearClassifierConfig
 
 

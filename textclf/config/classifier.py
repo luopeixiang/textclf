@@ -1,6 +1,7 @@
 from typing import Union, Optional, List
 
 from .base import ConfigBase
+from .components import RNNConfig
 
 
 class ClassifierConfig(ConfigBase):
@@ -34,16 +35,48 @@ class LinearClassifierConfig(ClassifierConfig):
     hidden_dropouts: Optional[List[float]] = None
 
 
-# TODO
-"""
 class RNNClassifierConfig(ClassifierConfig):
-    pass
+
+    # config for RNN layer
+    rnn_config: RNNConfig = RNNConfig()
+    # If True, use attention mechanism to caluate output state
+    use_attention: bool = True
+
+    # dropout probability on context
+    dropout: float = 0.2
 
 
 class RCNNClassifierConfig(ClassifierConfig):
-    pass
+    # config for RNN layer
+    rnn_config: RNNConfig = RNNConfig()
+
+    # size of  latent semantic vector
+    # Refer to Equation 4 of the original paper
+    # "Recurrent Convolutional Neural Networks for Text Classification"
+    semantic_units: int = 512
 
 
-class RNNAttnClassifierConfig(ClassifierConfig):
-    pass
-"""
+class DRNNClassifierConfig(ClassifierConfig):
+    # config for RNN layer
+    rnn_config: RNNConfig = RNNConfig()
+
+    # The dropout probability  applied  in drnn
+    # input and output layers,
+    dropout: float = 0.2
+
+    # The window size for rnn
+    window_size: int = 10
+
+
+class DPCNNClassifierConfig(ClassifierConfig):
+    # kernel size.
+    kernel_size: int = 3
+    # stride of pooling.
+    pooling_stride: int = 2
+    # number of kernels.
+    num_kernels: int = 16
+    # number of blocks for DPCNN.
+    blocks: int = 2
+
+    # dropout probability on convolution features
+    dropout: float = 0.2

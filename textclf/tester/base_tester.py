@@ -98,7 +98,9 @@ class Tester(metaclass=ABCMeta):
 
         if self.config.has_target:
             # 输出混淆矩阵/ badcase等信息
-            acc, report, confusion = evaluate(targets, predicts, self.get_all_labels())
-            print(f"Acc in test file:{acc}")
+            acc, report, confusion = evaluate(
+                targets, predicts, self.get_all_labels())
+            print(f"Acc in test file:{acc*100:.2f}%")
             print(f"Report:\n{report}")
-            print(f"Confusion matrix:\n{confusion}")
+            if self.config.print_confusion_mat:
+                print(f"Confusion matrix:\n{confusion}")

@@ -26,9 +26,10 @@ class MLTrainerConfig(ConfigBase):
 
 class DLTrainerConfig(ConfigBase):
     """Traning config for deep learning model"""
+    # 是否使用GPU
     use_cuda: bool = True
     #: Training epochs
-    epochs: int = 4
+    epochs: int = 10
     # score method 指定保存最优模型的方式
     # 如果score_method为accuracy，那么保存验证集上准确率最高的模型
     # 如果score_method为loss，那么保存损失最小的模型

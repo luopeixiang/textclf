@@ -1,6 +1,6 @@
 import torch
 
-from .classifier import Classifier
+from .base import Classifier
 from textclf.config import CNNClassifierConfig
 
 

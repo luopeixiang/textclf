@@ -24,6 +24,9 @@ class BaseTesterConfig(ConfigBase):
     # 如果不为None，那么将badcase写入到badcase_file指定的文件
     badcase_file: str = None
 
+    # 是否打印混淆矩阵，注意，当类别数比较多时，该矩阵可能无法正常在终端中显示
+    print_confusion_mat: bool = False
+
 
 class MLTesterConfig(BaseTesterConfig):
     model_path: str = "ckpts/model.joblib"

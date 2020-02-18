@@ -80,7 +80,7 @@ class FocalLoss(Criterion):
     def __call__(self, logits, targets):
         idx = targets.view(-1, 1).long()
         mask = torch.zeros_like(logits)
-        mask = mask.scatter_(1, idx, 1).bool()
+        mask = mask.scatter_(1, idx, 1).byte()
         logits = torch.softmax(logits, dim=-1)
         loss = -self.alpha * torch.pow((1 - logits), self.gamma) * \
             (logits + 1.e-9).log()  # 防止溢出所以加上1.e-9

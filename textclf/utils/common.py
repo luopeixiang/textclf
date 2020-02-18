@@ -2,8 +2,14 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.linear_model import LogisticRegression, SGDClassifier
 
 from textclf.trainer import MLTrainer, DLTrainer  # 循环import
-from textclf.models.cnn_classifier import CNNClassifier
-from textclf.models.linear_classifier import LinearClassifier
+from textclf.models.classifier import (
+    CNNClassifier,
+    LinearClassifier,
+    RNNClassifier,
+    RCNNClassifier,
+    DRNNClassifier,
+    DPCNNClassifier
+)
 from textclf.models.embedding_layer import (
     EmbeddingLayerConfig,
     StaticEmbeddingLayer,
@@ -28,6 +34,10 @@ CONFIG_TO_CLASS = {
     "MLTrainerConfig": MLTrainer,
     "DLTrainerConfig": DLTrainer,
     "CNNClassifierConfig": CNNClassifier,
+    "RNNClassifierConfig": RNNClassifier,
+    "RCNNClassifierConfig": RCNNClassifier,
+    "DRNNClassifierConfig": DRNNClassifier,
+    "DPCNNClassifierConfig": DPCNNClassifier,
     "LinearClassifierConfig": LinearClassifier,
     "StaticEmbeddingLayerConfig": StaticEmbeddingLayer,
     "BertEmbeddingLayerConfig": BertEmbeddingLayer,

@@ -2,12 +2,7 @@
 
 ### EmbeddingLayerConfig
 
-
-
-EmbeddingLayerConfig有以下属性：
-
- | Attribute name   | Type   | Default   | Description   |
-|-------------------------------------------------------|
+ 无可设置的属性
 
 
 

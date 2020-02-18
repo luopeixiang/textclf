@@ -10,11 +10,11 @@ setup(
     description='文本分类工具集',
     packages=["textclf", "textclf.data"],
     install_requires=[
-        "transformers",
-        "torch",
-        "click",
-        "tabulate",
-        "sklearn",
+        "transformers==2.4.1",
+        "torch>=1.1.0",
+        "Click==7.0.0",
+        "tabulate==0.8.6",
+        "scikit-learn==0.22.1",
         "jieba"
     ],
     package_dir={'textclf': 'textclf'},

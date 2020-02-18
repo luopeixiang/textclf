@@ -42,7 +42,7 @@ class LogisticRegressionConfig(MLModelConfig):
     solver: str = 'sag'
 
     # Maximum number of iterations taken for the solvers to converge.
-    max_iter: int = 100
+    max_iter: int = 1000
     # multi_class{‘auto’, ‘ovr’, ‘multinomial’} =’auto’
     multi_class: str = 'ovr'
     # For the liblinear and lbfgs solvers set verbose to any positive number for verbosity.

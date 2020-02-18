@@ -26,11 +26,11 @@ class DLTrainer(Trainer):
 
     def __init__(self, config: DLTrainerConfig):
         super().__init__(config)
+        self.use_cuda = self.config.use_cuda and torch.cuda.is_available()
         self.prepare()
         self.optimizer = create_optimizer(self.config.optimizer, self.model)
         self.lr_scheduler = create_lr_scheduler(self.config.scheduler, self.optimizer)
 
-        self.use_cuda = self.config.use_cuda and torch.cuda.is_available()
 
         self.config.criterion.use_cuda = self.use_cuda
         self.criterion = create_instance(self.config.criterion)
@@ -61,6 +61,8 @@ class DLTrainer(Trainer):
 
         print(f"Build model:\n{self.config.model}")
         self.model = create_instance(self.config.model)
+        if self.use_cuda:
+            self.model = self.model.cuda()
         print(f"Build data loader:\n{self.config.data_loader}")
         self.train_loader = build_loader(
             raw_data.train_pairs,

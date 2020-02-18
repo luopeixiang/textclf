@@ -9,7 +9,16 @@ from .embedding_layer import (
 )
 from .dl_model import DLModelConfig
 from .ml_model import LogisticRegressionConfig, LinearSVMConfig
-from .classifier import ClassifierConfig, CNNClassifierConfig, LinearClassifierConfig
+from .classifier import (
+    ClassifierConfig,
+    CNNClassifierConfig,
+    LinearClassifierConfig,
+    RNNClassifierConfig,
+    RCNNClassifierConfig,
+    DRNNClassifierConfig,
+    DPCNNClassifierConfig
+)
+from .components import RNNConfig
 from .optimizer import (
     AdamConfig,
     AdadeltaConfig,

@@ -22,7 +22,7 @@ TextClf 是一个面向文本分类场景的工具箱，它的目标是可以通
 
 TextClf有以下这些特性：
 
-* 同时支持机器学习模型如逻辑回归与深度学习模型如TextCNN、Bert
+* 同时支持机器学习模型如逻辑回归、线性向量机与深度学习模型如TextCNN、TextRNN、TextRCNN、DRNN、DPCNN、Bert等等。
 * 支持多种优化方法，如`Adam` 、`AdamW` 、`Adamax`、`RMSprop`等等
 * 支持多种学习率调整的方式，如`ReduceLROnPlateau` 、  `StepLR` 、 `MultiStepLR`
 * 支持多种损失函数，如`CrossEntropyLoss`、`CrossEntropyLoss with label smoothing`、`FocalLoss`
@@ -121,29 +121,32 @@ git clone http://git.code.oa.com/v_pxluo/textclf.git && cd textclf && pip3 insta
 
 下面我们看一下如何使用`textclf`训练模型进行文本分类。
 
-在目录`examples/query_intent_toy_data` 下有以下文件：
+在目录`examples/toutiao` 下有以下文件：
 
 ```bash
- 1000行 train.csv
-   50行 test.csv
-   50行 valid.csv
+  3900行 train.csv
+   600行 valid.csv
+   600行 test.csv
+  5100行 total
 ```
 
-这些数据来自小程序意图分类项目，在这里用作演示。
+这些数据来自
+[今日头条新闻分类数据集](https://github.com/skdjfla/toutiao-text-classfication-dataset)，
+在这里用作演示。
 
 文件的格式如下：
 
 ```bash
-玩机工具加强版  homepage
-防紫外线脸罩    goods
-阿玛尼口红400   goods
-爱拍    homepage
-全能解析        homepage
-婚庆摆设假花    goods
-长毛衣  goods
-湘南面霜        infomation
-校园安全月      infomation
-小腐基  infomation
+下周一（5.7日）手上持有这些股的要小心   news_finance
+猪伪狂犬苗的免疫方案怎么做？    news_edu
+小米7未到！这两款小米手机目前性价比最高，米粉：可惜买不到       news_tech
+任何指望技术来解决社会公正、公平的设想，都是幻想        news_tech
+诸葛亮能借东风火烧曹营，为什么火烧司马懿却没料到会下雨？        news_culture
+福利几款旅行必备神器，便宜实用颜值高！  news_travel
+抵押车要怎样年审和购买保险？    news_car
+现在一万一平米的房子，十年后大概卖多少钱？      news_house
+第一位有中国国籍的外国人，留中国五十多年，死前留下这样的话！    news_world
+为什么A股投资者越保护越亏？     stock
 ```
 
 文件每一行由两个字段组成，分别是句子和对应的label，句子和label之间使用`\t`字符隔开。
@@ -192,7 +195,9 @@ Bye!
 }
 ```
 
-`params`中是我们可以进行设置的参数，这些字段的详细含义可以[查看文档](docs/preprocess.md)。这里我们只需要把`datadir`字段修改成`query_intent_toy_data`目录即可（最好使用绝对路径，若使用相对路径，要确保当前工作目录正确访问该路径。）
+`params`中是我们可以进行设置的参数，这些字段的详细含义可以[查看文档](docs/preprocess.md)。
+这里我们只需要把`datadir`字段修改成`toutiao`目录即可
+（最好使用绝对路径，若使用相对路径，要确保当前工作目录正确访问该路径。）
 
 然后，就可以根据配置文件进行预处理了：
 
@@ -203,31 +208,55 @@ textclf --config-file preprocess.json preprocess
 如无错误，输出如下：
 
 ```bash
-Tokenize text from ./textclf/examples/query_intent_toy_data/train.csv...
-1000it [00:00, 530655.87it/s]
-Tokenize text from ./textclf/examples/query_intent_toy_data/valid.csv...
-50it [00:00, 288863.91it/s]
-Tokenize text from ./textclf/examples/query_intent_toy_data/test.csv...
-50it [00:00, 289661.88it/s]
+(textclf) luo@V_PXLUO-NB2:~/textclf/test$ textclf --config-file config.json preprocess
+Tokenize text from /home/luo/textclf/textclf_source/examples/toutiao/train.csv...
+3900it [00:00, 311624.35it/s]
+Tokenize text from /home/luo/textclf/textclf_source/examples/toutiao/valid.csv...
+600it [00:00, 299700.18it/s]
+Tokenize text from /home/luo/textclf/textclf_source/examples/toutiao/test.csv...
+600it [00:00, 289795.30it/s]
 Label Prob:
-+------------+-------------+-------------+------------+
-|            |   train.csv |   valid.csv |   test.csv |
-+============+=============+=============+============+
-| homepage   |      0.2200 |      0.1400 |     0.2200 |
-+------------+-------------+-------------+------------+
-| goods      |      0.3030 |      0.4200 |     0.2400 |
-+------------+-------------+-------------+------------+
-| infomation |      0.4070 |      0.3600 |     0.4000 |
-+------------+-------------+-------------+------------+
-| video      |      0.0700 |      0.0800 |     0.1400 |
-+------------+-------------+-------------+------------+
-| Sum        |   1000.0000 |     50.0000 |    50.0000 |
-+------------+-------------+-------------+------------+
-Dictionary Size: 1508
++--------------------+-------------+-------------+------------+
+|                    |   train.csv |   valid.csv |   test.csv |
++====================+=============+=============+============+
+| news_finance       |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_edu           |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_tech          |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_culture       |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_travel        |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_car           |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_house         |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_world         |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| stock              |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_story         |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_agriculture   |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_entertainment |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_military      |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_sports        |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| news_game          |      0.0667 |      0.0667 |     0.0667 |
++--------------------+-------------+-------------+------------+
+| Sum                |   3900.0000 |    600.0000 |   600.0000 |
++--------------------+-------------+-------------+------------+
+Dictionary Size: 2981
 Saving data to ./textclf.joblib...
 ```
 
 预处理会打印每个数据集标签分布的信息。同时，处理过后的数据被保存到二进制文件`./textclf.joblib`中了。
+（每个类别所含的样本数是相同的。）
 
 预处理中的详细参数说明，请查看[文档](docs/preprocess.md)。
 
@@ -235,7 +264,8 @@ Saving data to ./textclf.joblib...
 
 ### 训练一个逻辑回归模型
 
-同样的，我们先使用`textclf help-config`生成`train_lr.json`配置文件，输入`3` 选择训练机器学习模型的配置。根据提示分别选择`CountVectorizer`（文本向量化的方式）以及模型`LR`：
+同样的，我们先使用`textclf help-config`生成`train_lr.json`配置文件，输入`3` 选择训练机器学习模型的配置。
+根据提示分别选择`CountVectorizer`（文本向量化的方式）以及模型`LR`：
 
 ```bash
 (textclf) luo@luo-pc:~/projects$ textclf help-config
@@ -301,35 +331,34 @@ Bye!
 textclf --config-file test_lr.json test
 ```
 
-测试结束，`textclf`将会打印出准确率、每个label的`f1`值以及混淆矩阵：
+测试结束，`textclf`将会打印出准确率、每个label的`f1`值：
 
 ```bash
 Writing predicted labels to predict.csv
-Acc in test file:0.56
+Acc in test file:66.67%
 Report:
-              precision    recall  f1-score   support
+                    precision    recall  f1-score   support
 
-       goods     0.5625    0.7500    0.6429        12
-    homepage     0.5000    0.3636    0.4211        11
-  infomation     0.5652    0.6500    0.6047        20
-       video     0.6667    0.2857    0.4000         7
+  news_agriculture     0.6970    0.5750    0.6301        40
+          news_car     0.8056    0.7250    0.7632        40
+      news_culture     0.7949    0.7750    0.7848        40
+          news_edu     0.8421    0.8000    0.8205        40
+news_entertainment     0.6000    0.6000    0.6000        40
+      news_finance     0.2037    0.2750    0.2340        40
+         news_game     0.7111    0.8000    0.7529        40
+        news_house     0.7805    0.8000    0.7901        40
+     news_military     0.8750    0.7000    0.7778        40
+       news_sports     0.7317    0.7500    0.7407        40
+        news_story     0.7297    0.6750    0.7013        40
+         news_tech     0.6522    0.7500    0.6977        40
+       news_travel     0.6410    0.6250    0.6329        40
+        news_world     0.6585    0.6750    0.6667        40
+             stock     0.5000    0.4750    0.4872        40
 
-    accuracy                         0.5600        50
-   macro avg     0.5736    0.5123    0.5171        50
-weighted avg     0.5644    0.5600    0.5448        50
+          accuracy                         0.6667       600
+         macro avg     0.6815    0.6667    0.6720       600
+      weighted avg     0.6815    0.6667    0.6720       600
 
-Confusion matrix:
-+------------+---------+------------+--------------+---------+
-|            |   goods |   homepage |   infomation |   video |
-+============+=========+============+==============+=========+
-| goods      |       9 |          0 |            3 |       0 |
-+------------+---------+------------+--------------+---------+
-| homepage   |       3 |          4 |            4 |       0 |
-+------------+---------+------------+--------------+---------+
-| infomation |       3 |          3 |           13 |       1 |
-+------------+---------+------------+--------------+---------+
-| video      |       1 |          1 |            3 |       2 |
-+------------+---------+------------+--------------+---------+
 ```
 
 关于机器学习模型测试中的详细参数，请查看[文档](docs/tester.md)。
@@ -343,17 +372,74 @@ Confusion matrix:
 这里简单做一下说明。先通过`help-config`进行配置，根据提示，先选择`DLTrainerConfig` ，然后再先后选择`Adam optimzer + ReduceLROnPlateau + StaticEmbeddingLayer + CNNClassifier +  CrossEntropyLoss`即可。
 
 ```bash
-(textclf) luo@luo-pc:~/projects$ textclf help-config
-Config  有以下选择(Default: DLTrainerConfig): 
-0. PreprocessConfig	预处理的设置
-1. DLTrainerConfig	训练深度学习模型的设置
-2. DLTesterConfig	测试深度学习模型的设置
-3. MLTrainerConfig	训练机器学习模型的设置
-4. MLTesterConfig	测试机器学习模型的设置
-输入您选择的ID (q to quit, enter for default):1
-Chooce value DLTrainerConfig	训练深度学习模型的设置
+(textclf) luo@V_PXLUO-NB2:~/textclf/test$ textclf help-config
+Config  有以下选择(Default: DLTrainerConfig):
+0. PreprocessConfig     预处理的设置
+1. DLTrainerConfig      训练深度学习模型的设置
+2. DLTesterConfig       测试深度学习模型的设置
+3. MLTrainerConfig      训练机器学习模型的设置
+4. MLTesterConfig       测试机器学习模型的设置
+输入您选择的ID (q to quit, enter for default):
+Chooce default value: DLTrainerConfig
 正在设置optimizer
-optimizer 有以下选择(Default: Adam): 
+optimizer 有以下选择(Default: Adam):
+0. Adam
+1. Adadelta
+2. Adagrad
+3. AdamW
+4. Adamax
+5. ASGD
+6. RMSprop
+7. Rprop
+8. SGD
+输入您选择的ID (q to quit, enter for default):
+Chooce default value: Adam
+正在设置scheduler
+scheduler 有以下选择(Default: NoneScheduler):
+0. NoneScheduler
+1. ReduceLROnPlateau
+2. StepLR
+3. MultiStepLR
+输入您选择的ID (q to quit, enter for default):
+Chooce default value: NoneScheduler
+正在设置model
+正在设置embedding_layer
+embedding_layer 有以下选择(Default: StaticEmbeddingLayer):
+0. StaticEmbeddingLayer
+1. BertEmbeddingLayer
+输入您选择的ID (q to quit, enter for default):
+Chooce default value: StaticEmbeddingLayer
+正在设置classifier
+classifier 有以下选择(Default: CNNClassifier):
+0. CNNClassifier
+1. LinearClassifier
+2. RNNClassifier
+3. RCNNClassifier
+4. DRNNClassifier
+5. DPCNNClassifier
+输入您选择的ID (q to quit, enter for default):0
+Chooce value CNNClassifier
+正在设置data_loader
+正在设置criterion
+criterion 有以下选择(Default: CrossEntropyLoss):
+0. CrossEntropyLoss
+1. FocalLoss
+输入您选择的ID (q to quit, enter for default):q^Hq
+请输入整数ID！
+输入您选择的ID (q to quit, enter for default):q
+Goodbye!
+(textclf) luo@V_PXLUO-NB2:~/textclf/test$
+(textclf) luo@V_PXLUO-NB2:~/textclf/test$ textclf help-config
+Config  有以下选择(Default: DLTrainerConfig):
+0. PreprocessConfig     预处理的设置
+1. DLTrainerConfig      训练深度学习模型的设置
+2. DLTesterConfig       测试深度学习模型的设置
+3. MLTrainerConfig      训练机器学习模型的设置
+4. MLTesterConfig       测试机器学习模型的设置
+输入您选择的ID (q to quit, enter for default):1
+Chooce value DLTrainerConfig    训练深度学习模型的设置
+正在设置optimizer
+optimizer 有以下选择(Default: Adam):
 0. Adam
 1. Adadelta
 2. Adagrad
@@ -366,29 +452,33 @@ optimizer 有以下选择(Default: Adam):
 输入您选择的ID (q to quit, enter for default):0
 Chooce value Adam
 正在设置scheduler
-scheduler 有以下选择(Default: NoneScheduler): 
+scheduler 有以下选择(Default: NoneScheduler):
 0. NoneScheduler
 1. ReduceLROnPlateau
 2. StepLR
 3. MultiStepLR
-输入您选择的ID (q to quit, enter for default):1
-Chooce value ReduceLROnPlateau
+输入您选择的ID (q to quit, enter for default):0
+Chooce value NoneScheduler
 正在设置model
 正在设置embedding_layer
-embedding_layer 有以下选择(Default: StaticEmbeddingLayer): 
+embedding_layer 有以下选择(Default: StaticEmbeddingLayer):
 0. StaticEmbeddingLayer
 1. BertEmbeddingLayer
 输入您选择的ID (q to quit, enter for default):0
 Chooce value StaticEmbeddingLayer
 正在设置classifier
-classifier 有以下选择(Default: CNNClassifier): 
+classifier 有以下选择(Default: CNNClassifier):
 0. CNNClassifier
 1. LinearClassifier
+2. RNNClassifier
+3. RCNNClassifier
+4. DRNNClassifier
+5. DPCNNClassifier
 输入您选择的ID (q to quit, enter for default):0
 Chooce value CNNClassifier
 正在设置data_loader
 正在设置criterion
-criterion 有以下选择(Default: CrossEntropyLoss): 
+criterion 有以下选择(Default: CrossEntropyLoss):
 0. CrossEntropyLoss
 1. FocalLoss
 输入您选择的ID (q to quit, enter for default):0
@@ -427,8 +517,6 @@ textclf --config-file train_cnn.json train
 
 ## TODO
 
-* 加入更多的`classifier`：RCNN, TextRNN,  VDCNN, DPCNN等等。
-* 完善文档
 * 加入多模型集成评估和预测
 * 加载训练好的模型，提供api服务
 * 自动调参（？）

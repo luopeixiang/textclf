@@ -2,23 +2,13 @@
 
 ### SchedulerConfig
 
-
-
-SchedulerConfig有以下属性：
-
- | Attribute name   | Type   | Default   | Description   |
-|-------------------------------------------------------|
+ 无可设置的属性
 
 
 
 ### NoneSchedulerConfig
 
-Do nothing
-
-NoneSchedulerConfig继承SchedulerConfig的所有属性，同时它还有以下属性：
-
- | Attribute name   | Type   | Default   | Description   |
-|-------------------------------------------------------|
+Do nothing 无可设置的属性
 
 
 
