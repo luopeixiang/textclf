@@ -18,7 +18,7 @@ setup(
         "jieba"
     ],
     package_dir={'textclf': 'textclf'},
-    python_requires='>=3',
+    python_requires='>=3.6',
     entry_points={
         'console_scripts': ['textclf=textclf.main:main'],
     }
