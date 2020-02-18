@@ -9,7 +9,7 @@
 DLModelConfig有以下属性：
 
  | Attribute name   | Type                 | Default                      | Description              |
-|---------------------------------------------------------------------------------------------------|
+|------------------|----------------------|------------------------------|--------------------------|
 | embedding_layer  | EmbeddingLayerConfig | StaticEmbeddingLayerConfig() |                          |
 | classifier       | ClassifierConfig     | CNNClassifierConfig()        | default model is textcnn |
 

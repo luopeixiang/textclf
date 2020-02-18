@@ -13,7 +13,7 @@
 StaticEmbeddingLayerConfig继承EmbeddingLayerConfig的所有属性，同时它还有以下属性：
 
  | Attribute name   | Type                 | Default                               | Description                                                                                                                                                                               |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|------------------|----------------------|---------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | dim              | int                  | 300                                   |                                                                                                                                                                                           |
 | method           | str                  | "random"  # choice: random/pretrained |                                                                                                                                                                                           |
 | pretrained_path  | Optional[str]        | None                                  | Specify pretrained model path, valid when methed is pretrainedThe pre-trained vector files are in text format.Each line contains a word and its vector. Each value is separated by space. |
@@ -28,7 +28,7 @@ StaticEmbeddingLayerConfig继承EmbeddingLayerConfig的所有属性，同时它�
 BertEmbeddingLayerConfig继承EmbeddingLayerConfig的所有属性，同时它还有以下属性：
 
  | Attribute name   | Type   | Default         | Description                                                       |
-|-----------------------------------------------------------------------------------------------------------------|
+|------------------|--------|-----------------|-------------------------------------------------------------------|
 | dim              | int    | 768             | the hidden size of hidden 如果是base则为768,如果是large，则为1024 |
 | model_dir        | str    | "bert_pretrain" |                                                                   |
 

@@ -19,7 +19,7 @@ Do nothing 无可设置的属性
 ReduceLROnPlateauConfig继承SchedulerConfig的所有属性，同时它还有以下属性：
 
  | Attribute name   | Type   | Default   | Description                                                                                                                                                                                                                                                                    |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|------------------|--------|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | mode             | str    | 'min'     | One of min, max.In min mode, lr will be reduced when val loss has stopped decreasing;in max mode it will be reduced when val accuracy has stopped increasing. Default: ‘min’.                                                                                                  |
 | factor           | float  | 0.1       | Factor by which the learning rate will be reduced. new_lr = lr * factor. Default: 0.1.                                                                                                                                                                                         |
 | patience         | int    | 10        | Number of epochs with no improvement after which learning rate will be reduced.For example, if patience = 2, then we will ignore the first 2 epochs with no improvement,and will only decrease the LR after the 3rd epoch if the loss still hasn’t improved then. Default: 10. |
@@ -39,7 +39,7 @@ ReduceLROnPlateauConfig继承SchedulerConfig的所有属性，同时它还有以
 StepLRConfig继承SchedulerConfig的所有属性，同时它还有以下属性：
 
  | Attribute name   | Type   | Default   | Description                                                 |
-|-----------------------------------------------------------------------------------------------------|
+|------------------|--------|-----------|-------------------------------------------------------------|
 | step_size        | int    | 10        | Period of learning rate decay.                              |
 | gamma            | float  | 0.5       | Multiplicative factor of learning rate decay. Default: 0.1. |
 
@@ -52,7 +52,7 @@ StepLRConfig继承SchedulerConfig的所有属性，同时它还有以下属性�
 MultiStepLRConfig继承SchedulerConfig的所有属性，同时它还有以下属性：
 
  | Attribute name   | Type      | Default     | Description                                                 |
-|----------------------------------------------------------------------------------------------------------|
+|------------------|-----------|-------------|-------------------------------------------------------------|
 | milestones       | List[int] | [5, 10, 15] | List of epoch indices. Must be increasing.                  |
 | gamma            | float     | 0.5         | Multiplicative factor of learning rate decay. Default: 0.1. |
 

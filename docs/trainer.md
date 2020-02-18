@@ -7,7 +7,7 @@
 MLTrainerConfig有以下属性：
 
  | Attribute name   | Type             | Default                    | Description                          |
-|---------------------------------------------------------------------------------------------------------|
+|------------------|------------------|----------------------------|--------------------------------------|
 | vectorizer       | VectorizerConfig | CountVectorizerConfig()    |                                      |
 | model            | MLModelConfig    | LogisticRegressionConfig() |                                      |
 | raw_data_path    | str              | "textclf.joblib"           |                                      |
@@ -22,7 +22,7 @@ Traning config for deep learning model
 DLTrainerConfig有以下属性：
 
  | Attribute name              | Type                      | Default                  | Description                                                                                                                                   |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-----------------------------|---------------------------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | use_cuda                    | bool                      | True                     | 是否使用GPU                                                                                                                                   |
 | epochs                      | int                       | 10                       | : Training epochs                                                                                                                             |
 | score_method                | str                       | "accuracy"               | score method 指定保存最优模型的方式如果score_method为accuracy，那么保存验证集上准确率最高的模型如果score_method为loss，那么保存损失最小的模型 |

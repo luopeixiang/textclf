@@ -13,7 +13,7 @@
 LogisticRegressionConfig继承MLModelConfig的所有属性，同时它还有以下属性：
 
  | Attribute name    | Type   | Default   | Description                                                                                                                                          |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-------------------|--------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | penalty           | str    | "l2"      | penalty{‘l1’, ‘l2’, ‘elasticnet’, ‘none’} Used to specify the norm used in the penalization.                                                         |
 | dual              | bool   | False     | Dual or primal formulation. Dual formulation is only implementedfor l2 penalty with liblinear solver. Prefer dual=False when n_samples > n_features. |
 | tol               | float  | 1e-4      | Tolerance for stopping criteria.                                                                                                                     |

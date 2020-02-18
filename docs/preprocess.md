@@ -7,7 +7,7 @@
 PreprocessConfig有以下属性：
 
  | Attribute name   | Type   | Default     | Description                                        |
-|----------------------------------------------------------------------------------------------|
+|------------------|--------|-------------|----------------------------------------------------|
 | train_file       | str    | "train.csv" |                                                    |
 | valid_file       | str    | "valid.csv" |                                                    |
 | test_file        | str    | "test.csv"  |                                                    |

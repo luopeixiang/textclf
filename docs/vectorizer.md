@@ -7,7 +7,7 @@
 VectorizerConfig有以下属性：
 
  | Attribute name   | Type                        | Default        | Description                                                                                                                                                                                                                                                                                                     |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|------------------|-----------------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | lowercase        | bool                        | True           | Convert all characters to lowercase or not                                                                                                                                                                                                                                                                      |
 | stop_words       | Union[List[str], str, None] | None           | If ‘english’, a built-in stop word list for English is used.If a list, that list is assumed to contain stop words, all of which will be removed from the resulting tokens.If None, no stop words will be used.                                                                                                  |
 | token_pattern    | str                         | r"(?u)\b\w+\b" | Regular expression denoting what constitutes a “token”                                                                                                                                                                                                                                                          |
@@ -25,7 +25,7 @@ VectorizerConfig有以下属性：
 CountVectorizerConfig继承VectorizerConfig的所有属性，同时它还有以下属性：
 
  | Attribute name   | Type   | Default   | Description                                                                                                                                    |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|------------------|--------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------|
 | binary           | bool   | False     | If True, all non zero counts are set to 1.This is useful for discrete probabilistic modelsthat model binary events rather than integer counts. |
 
 
@@ -37,7 +37,7 @@ CountVectorizerConfig继承VectorizerConfig的所有属性，同时它还有以�
 TfidfVectorizerConfig继承VectorizerConfig的所有属性，同时它还有以下属性：
 
  | Attribute name   | Type   | Default   | Description                                                                                                                                                                                                                                                                   |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|------------------|--------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | norm             | str    | "l2"      | Each output row will have unit norm, either: * ‘l2’: Sum of squares of vector elements is 1.The cosine similarity between two vectors is their dot product when l2 norm has been applied.* ‘l1’: Sum of absolute values of vector elements is 1. See preprocessing.normalize. |
 | use_idf          | bool   | True      | Enable inverse-document-frequency reweighting.                                                                                                                                                                                                                                |
 | smooth_idf       | bool   | True      | Smooth idf weights by adding one to document frequencies,as if an extra document was seen containing every term inthe collection exactly once. Prevents zero divisions.                                                                                                       |

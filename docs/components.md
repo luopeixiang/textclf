@@ -7,7 +7,7 @@
 RNNConfig有以下属性：
 
  | Attribute name   | Type   | Default   | Description                                                                     |
-|-------------------------------------------------------------------------------------------------------------------------|
+|------------------|--------|-----------|---------------------------------------------------------------------------------|
 | rnn_type         | str    | "LSTM"    | specity the type of rnn, choices: RNN, GRU or LSTM                              |
 | hidden_size      | int    | 256       | The number of features in the hidden state h                                    |
 | num_layers       | int    | 2         | Number of recurrent layers. E.g., setting num_layers=2 would mean stacking      |
