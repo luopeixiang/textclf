@@ -109,8 +109,7 @@ TextClf将文本分类的流程看成**预处理、模型训练、模型测试**
 pip install textclf
 ```
 
-上述命令首先将代码`clone`到本地， 然后切换到项目目录，使用`pip`安装`textclf`及其依赖。
-之后就可以使用`textclf`了！
+安装成功之后就可以使用`textclf`了！
 
 
 
