@@ -23,6 +23,7 @@ class RCNNClassifier(Classifier):
 
     def forward(self, embedding, seq_lens):
         outputs, _ = self.rnn(embedding, seq_lens)
+        # embedding = embedding[:, :outputs.size(1), :]
         outputs = torch.cat((embedding, outputs), 2)
         outputs = F.tanh(self.semantic_layer(outputs))
         outputs = outputs.permute(0, 2, 1)

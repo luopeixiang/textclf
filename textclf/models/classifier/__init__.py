@@ -4,3 +4,4 @@ from .rnn import RNNClassifier
 from .rcnn import RCNNClassifier
 from .drnn import DRNNClassifier
 from .dpcnn import DPCNNClassifier
+from .transformer_encoder import TransformerClassifier

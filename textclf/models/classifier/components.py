@@ -41,7 +41,7 @@ class RNN(torch.nn.Module):
             sorted_inputs = inputs[indices]
             packed_inputs = pack_padded_sequence(
                 sorted_inputs,
-                sorted_seq_lengths,
+                sorted_seq_lengths.cpu(),
                 batch_first=True
             )
             outputs, state = self.rnn(packed_inputs, init_state)
@@ -75,11 +75,10 @@ class AttentionLayer(nn.Module):
 
     def forward(self, inputs, seq_lens):
         u = torch.tanh(self.attention_matrix(inputs))
+        attn_logits = self.attention_vector(u).squeeze(2)  # [batch_size, maxLen]
 
-        attn_logits = self.attention_vector(u).squeeze()
         for i, seq_len in enumerate(seq_lens):
             attn_logits[i][seq_len.item():] = -1e9
-
-        alpha = F.softmax(attn_logits, 1).unsqueeze(1)
-        context = torch.matmul(alpha, inputs).squeeze()
+        alpha = F.softmax(attn_logits, 1).unsqueeze(1)  # [batch_size, 1, maxLen]
+        context = torch.matmul(alpha, inputs).squeeze(1)  # [batch_size, emb]
         return context
