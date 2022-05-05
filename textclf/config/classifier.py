@@ -80,3 +80,14 @@ class DPCNNClassifierConfig(ClassifierConfig):
 
     # dropout probability on convolution features
     dropout: float = 0.2
+
+
+class TransformerClassifierConfig(ClassifierConfig):
+    d_model: int = 512
+    nhead: int = 8
+    num_encoder_layers: int = 6
+    dim_feedforward: int = 2048
+    dropout: float = 0.1
+    layer_norm_eps: float = 1e-5
+    batch_first: bool = True
+    norm_first: bool = False

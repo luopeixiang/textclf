@@ -13,8 +13,8 @@ setup(
         "transformers==2.4.1",
         "torch>=1.1.0",
         "Click==7.0.0",
-        "tabulate==0.8.6",
-        "scikit-learn==0.22.1",
+        "tabulate",
+        "scikit-learn>=0.22.1",
         "jieba"
     ],
     package_dir={'textclf': 'textclf'},

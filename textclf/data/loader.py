@@ -45,6 +45,12 @@ def collate_fn(dictionary: Dictionary, max_len: int, pairs: Iterable[Tuple[str, 
     texts, labels = zip(*pairs)
     text_lens = torch.LongTensor([len(text) for text in texts])
     text_tensor = texts_to_tensor(texts, dictionary)
+
+    batch_size = text_tensor.size(0)
+    n_padding = max_len - text_tensor.size(1)
+    if n_padding > 0:
+        padding = torch.zeros([batch_size, max_len], dtype=text_tensor.dtype)
+        text_tensor = torch.concat([text_tensor, padding], dim=1)
     labels = torch.LongTensor(labels)
     return text_tensor, text_lens, labels
 
@@ -58,10 +64,10 @@ def bert_collate_fn(
     texts, labels = zip(*pairs)
     labels = torch.LongTensor(labels)
     # +1 for [CLS] token
-    text_lens = torch.LongTensor([len(text)+1 for text in texts])
-    max_len = text_lens.max().item()
+    text_lens = torch.LongTensor([len(text) + 1 for text in texts])
+    # max_len = text_lens.max().item()
     ids = torch.ones(len(texts), max_len).long() * tokenizer.pad_token_id
     for i, text in enumerate(texts):
-        ids[i][:len(text)+1] = torch.LongTensor(
+        ids[i][:len(text) + 1] = torch.LongTensor(
             tokenizer.encode(text, add_special_tokens=True)[:-1])
     return ids, text_lens, labels

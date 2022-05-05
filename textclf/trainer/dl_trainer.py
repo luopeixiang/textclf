@@ -31,7 +31,6 @@ class DLTrainer(Trainer):
         self.optimizer = create_optimizer(self.config.optimizer, self.model)
         self.lr_scheduler = create_lr_scheduler(self.config.scheduler, self.optimizer)
 
-
         self.config.criterion.use_cuda = self.use_cuda
         self.criterion = create_instance(self.config.criterion)
 
@@ -98,8 +97,10 @@ class DLTrainer(Trainer):
 
             if epoch > self.static_epoch:
                 # print("Create new optimizer and scheduler!")
-                self.optimizer = create_optimizer(self.config.optimizer, self.model, epoch)
-                self.lr_scheduler = create_lr_scheduler(self.config.scheduler, self.optimizer)
+                self.optimizer = create_optimizer(
+                    self.config.optimizer, self.model, epoch)
+                self.lr_scheduler = create_lr_scheduler(
+                    self.config.scheduler, self.optimizer)
 
             if self.config.save_ckpt_every_epoch:
                 self.save_checkpoint(str(epoch))
@@ -166,8 +167,6 @@ class DLTrainer(Trainer):
     def validate(self):
         """eval model on validation dataset and save if find best model"""
         val_loss, val_acc = self.eval_dataloader(self.valid_loader)
-        print(f"Validation Loss: {val_loss:.4f}\t"
-              f"Validation Acc: {val_acc*100:.2f}%")
 
         find_best_model = False
         if val_loss < self.best_loss:
@@ -181,6 +180,10 @@ class DLTrainer(Trainer):
             self.best_acc = val_acc
             if self.config.score_method == "accuracy":
                 find_best_model = True
+
+        print(f"Validation Loss: {val_loss:.4f}\t"
+              f"Validation Acc: {val_acc*100:.2f}%\t"
+              f"Best Validation Acc: {self.best_acc*100:.2f}%")
 
         if find_best_model:
             self.save_checkpoint("best")

@@ -1,5 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
+from tqdm import tqdm
+
 from textclf.utils.eval import evaluate
 
 
@@ -69,7 +71,7 @@ class Tester(metaclass=ABCMeta):
         if has_target:
             targets = []
 
-        for line in inp:
+        for line in tqdm(inp):
             if has_target:
                 text, target = line.strip().split('\t')
                 targets.append(target)
@@ -96,11 +98,10 @@ class Tester(metaclass=ABCMeta):
             print(f"Writing badcase to {self.config.badcase_file}")
             badcase.close()
 
-        if self.config.has_target:
+        if self.config.has_target and self.config.print_confusion_mat:
             # 输出混淆矩阵/ badcase等信息
             acc, report, confusion = evaluate(
                 targets, predicts, self.get_all_labels())
             print(f"Acc in test file:{acc*100:.2f}%")
             print(f"Report:\n{report}")
-            if self.config.print_confusion_mat:
-                print(f"Confusion matrix:\n{confusion}")
+            print(f"Confusion matrix:\n{confusion}")

@@ -8,7 +8,8 @@ from textclf.models.classifier import (
     RNNClassifier,
     RCNNClassifier,
     DRNNClassifier,
-    DPCNNClassifier
+    DPCNNClassifier,
+    TransformerClassifier
 )
 from textclf.models.embedding_layer import (
     EmbeddingLayerConfig,
@@ -46,6 +47,7 @@ CONFIG_TO_CLASS = {
     "DLTesterConfig": DLTester,
     "CrossEntropyLossConfig": CrossEntropyLoss,
     "FocalLossConfig": FocalLoss,
+    "TransformerClassifierConfig": TransformerClassifier
 }
 
 CONFIG_CHOICES = {

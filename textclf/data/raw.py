@@ -64,8 +64,8 @@ class TextClfRawData(object):
             label_table.append([
                 label,
                 train_label_prob[label],
-                valid_label_prob[label],
-                test_label_prob[label]
+                valid_label_prob.get(label, 0),
+                test_label_prob.get(label, 0)
             ])
         label_table.append([
             "Sum",

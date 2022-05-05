@@ -8,7 +8,7 @@ class PreprocessConfig(ConfigBase):
     valid_file: str = "valid.csv"
     test_file: str = "test.csv"
     datadir: str = "dataset"
-    # Possible choices: space, char, nltk, jiaba
+    # Possible choices: space, char, nltk, jieba
     tokenizer: str = "char"
 
     # number of words to retain, -1 表示不限制字典的大小

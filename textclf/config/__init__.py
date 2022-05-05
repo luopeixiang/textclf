@@ -16,7 +16,8 @@ from .classifier import (
     RNNClassifierConfig,
     RCNNClassifierConfig,
     DRNNClassifierConfig,
-    DPCNNClassifierConfig
+    DPCNNClassifierConfig,
+    TransformerClassifierConfig
 )
 from .components import RNNConfig
 from .optimizer import (

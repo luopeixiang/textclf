@@ -37,3 +37,4 @@ class DLTesterConfig(BaseTesterConfig):
     use_cuda: bool = True
     model_path: str = "ckpts/best.pt"
     max_len: int = 10
+    batch_size: int = 25
