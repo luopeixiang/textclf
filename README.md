@@ -521,7 +521,7 @@ textclf --config-file train_cnn.json train
 
 ## 参考
 
-[DeepText/NeuralClassifier](https://git.code.oa.com/DeepText/NeuralClassifier) 
+[DeepText/NeuralClassifier](https://github.com/Tencent/NeuralNLP-NeuralClassifier) 
 
 [pytext](https://github.com/facebookresearch/pytext) 
 
