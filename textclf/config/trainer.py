@@ -45,6 +45,10 @@ class DLTrainerConfig(ConfigBase):
     # 从state_dict_file指定的断点开始训练
     # state_dict_file: Optional[str] = "./ckpts/1.pt"
     state_dict_file: Optional[str] = None
+    # 是否从state_dict_file中加载字典以及label2id
+    load_dictionary_from_ckpt: Optional[bool] = False
+    # 测试程序能否走通，设置为True的情况下只使用少部分数据
+    test_program: Optional[bool] = False
 
     #: Stop after how many epochs when the eval metric is not improving
     early_stop_after: Optional[int] = None

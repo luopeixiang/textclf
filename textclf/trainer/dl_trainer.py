@@ -26,7 +26,11 @@ class DLTrainer(Trainer):
 
     def __init__(self, config: DLTrainerConfig):
         super().__init__(config)
+        print(f"Trainer config:\n{self.config}")
         self.use_cuda = self.config.use_cuda and torch.cuda.is_available()
+        self.checkpoint = None
+        if self.config.state_dict_file:
+            self.checkpoint = self.load_checkpoint(self.config.state_dict_file)
         self.prepare()
         self.optimizer = create_optimizer(self.config.optimizer, self.model)
         self.lr_scheduler = create_lr_scheduler(self.config.scheduler, self.optimizer)
@@ -41,14 +45,25 @@ class DLTrainer(Trainer):
 
         self.start_epoch = 1
         self.cur_epoch = 1
+
         if self.config.state_dict_file:
-            self.load_state_dict(self.config.state_dict_file)
+            self.init_from_checkpoint(self.checkpoint)
             print(f"Continue Training from epoch {self.start_epoch}!")
 
     def prepare(self):
         """prepare model and data for model input"""
         loader_config = self.config.data_loader
         raw_data = load_raw_data(loader_config.raw_data_path)
+        if self.checkpoint and self.config.load_dictionary_from_ckpt:
+            print("loading dict and label2id from checkpoint...")
+            raw_data.dictionary = self.checkpoint['info_for_test'][1]
+            raw_data.label2id = self.checkpoint['info_for_test'][2]
+
+        if self.config.test_program:
+            raw_data.train_pairs = raw_data.train_pairs[:1000]
+            raw_data.valid_pairs = raw_data.valid_pairs[:100]
+            raw_data.test_pairs = raw_data.test_pairs[:100]
+
         self.config.model.classifier.output_size = len(raw_data.label2id)
 
         emb_conf = self.config.model.embedding_layer
@@ -58,11 +73,11 @@ class DLTrainer(Trainer):
         elif isinstance(emb_conf, BertEmbeddingLayerConfig):
             dictionary_or_tokenizer = BertTokenizer.from_pretrained(emb_conf.model_dir)
 
-        print(f"Build model:\n{self.config.model}")
+        # print(f"Build model:\n{self.config.model}")
         self.model = create_instance(self.config.model)
         if self.use_cuda:
             self.model = self.model.cuda()
-        print(f"Build data loader:\n{self.config.data_loader}")
+        # print(f"Build data loader:\n{self.config.data_loader}")
         self.train_loader = build_loader(
             raw_data.train_pairs,
             dictionary_or_tokenizer,
@@ -90,7 +105,7 @@ class DLTrainer(Trainer):
         )
 
     def train(self):
-        for epoch in range(self.start_epoch, self.config.epochs+1):
+        for epoch in range(self.start_epoch, self.config.epochs + 1):
             self.cur_epoch = epoch
             self.train_epoch()
             self.validate()
@@ -155,12 +170,13 @@ class DLTrainer(Trainer):
                 loss, acc = self.run_step(batch, is_train=False)
                 total_acc += acc
                 total_loss += loss
-        return total_loss/num_batch, total_acc/num_batch
+        return total_loss / num_batch, total_acc / num_batch
 
     def test(self):
         if self.config.load_best_model_after_train:
             best_ckpt_path = os.path.join(self.config.ckpts_dir, "best.pt")
-            self.load_state_dict(best_ckpt_path)
+            best_ckpt = self.load_checkpoint(best_ckpt_path)
+            self.init_from_checkpoint(best_ckpt)
         test_loss, test_acc = self.eval_dataloader(self.test_loader)
         print(f"Test Loss: {test_loss:.4f}\tTest Acc: {test_acc*100:.2f}%")
 
@@ -216,10 +232,13 @@ class DLTrainer(Trainer):
         print(f"Saving model to {file_path}...")
         torch.save(state_dict, file_path)
 
-    def load_state_dict(self, path):
-        """根据state文件初始化参数"""
+    def load_checkpoint(self, path):
         print(f"Loading checkpoint from {path}..")
         checkpoint = torch.load(path)
+        return checkpoint
+
+    def init_from_checkpoint(self, checkpoint):
+        """根据state文件初始化参数"""
         self.start_epoch = checkpoint["epoch"] + 1
         self.model.load_state_dict(checkpoint["model_state_dict"])
         self.optimizer.load_state_dict(checkpoint["optimizer"])
