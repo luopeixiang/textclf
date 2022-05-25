@@ -21,8 +21,14 @@ class DLTester(Tester):
         self.tokenizer = create_tokenizer(self.config.tokenizer)
         self.use_cuda = self.config.use_cuda and torch.cuda.is_available()
 
-        print(f"Load checkpoint from {self.config.model_path}..")
-        checkpoint = torch.load(self.config.model_path)
+        print(f"use_cuda: {self.use_cuda}..")
+        if not self.use_cuda:
+            print(f"Load checkpoint from {self.config.model_path} to cpu..")
+            checkpoint = torch.load(self.config.model_path, map_location=torch.device('cpu'))
+        else:
+            print(f"Load checkpoint from {self.config.model_path} to GPU..")
+            checkpoint = torch.load(self.config.model_path, map_location=torch.device('cuda:0'))
+
         self.model_conf, self.dictionary, self.label2id = \
             checkpoint["info_for_test"]
         print("Model conf:", self.model_conf)
@@ -65,6 +71,25 @@ class DLTester(Tester):
             text_len = text_len.cuda()
 
         return text_processed.unsqueeze(0), text_len.unsqueeze(0)
+
+    def predict_batch(self, texts):
+        """
+        predict top1 label and score
+        """
+        text_ids, text_lens = [], []
+        for text in texts:
+            text_id, text_len = self._preprocess(text)
+            text_ids.append(text_id)
+            text_lens.append(text_len)
+        text_ids = torch.concat(text_ids)
+        text_lens = torch.concat(text_lens)
+        self.model.eval()
+        with torch.no_grad():
+            logits = self.model(text_ids, text_lens)
+        probs = torch.softmax(logits, dim=1)
+        scores, label_ids = torch.max(probs, dim=1)
+        labels = [self.classes[idx] for idx in label_ids.tolist()]
+        return labels, scores.tolist()
 
     def predict_label(self, text):
         text_processed, text_len = self._preprocess(text)

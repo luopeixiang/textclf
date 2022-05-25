@@ -65,7 +65,7 @@ def bert_collate_fn(
     labels = torch.LongTensor(labels)
     # +1 for [CLS] token
     text_lens = torch.LongTensor([len(text) + 1 for text in texts])
-    # max_len = text_lens.max().item()
+    max_len = max(text_lens.max().item(), max_len)
     ids = torch.ones(len(texts), max_len).long() * tokenizer.pad_token_id
     for i, text in enumerate(texts):
         ids[i][:len(text) + 1] = torch.LongTensor(
