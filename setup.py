@@ -8,11 +8,11 @@ setup(
     author_email="luopeixiang@qq.com",
     version="0.1.0",
     description='文本分类工具集',
-    packages=["textclf", "textclf.data"],
+    packages=find_packages(),
     install_requires=[
         "transformers==2.4.1",
         "torch>=1.1.0",
-        "Click==7.0.0",
+        "Click>=7.0.0",
         "tabulate",
         "scikit-learn>=0.22.1",
         "jieba"
