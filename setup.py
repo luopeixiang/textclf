@@ -10,7 +10,7 @@ setup(
     description='文本分类工具集',
     packages=find_packages(),
     install_requires=[
-        "transformers==2.4.1",
+        "transformers==4.30.0",
         "torch>=1.1.0",
         "Click>=7.0.0",
         "tabulate",
